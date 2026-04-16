@@ -310,17 +310,20 @@ export default function App() {
     else { setSortKey(key); setSortDir('asc') }
   }
 
-  const th = (key, label) => ({
-    style: {
-      padding: '10px 12px', cursor: 'pointer', userSelect: 'none',
-      background: sortKey === key ? '#1e293b' : 'transparent',
-      color: sortKey === key ? '#f59e0b' : '#94a3b8',
-      fontSize: 11, fontWeight: 600, textTransform: 'uppercase',
-      letterSpacing: 1, whiteSpace: 'nowrap', borderBottom: '2px solid #1e293b',
-      textAlign: 'left'
-    },
-    onClick: () => handleSort(key)
+  const thStyle = (key) => ({
+    padding: '10px 12px', cursor: 'pointer', userSelect: 'none',
+    background: sortKey === key ? '#1e293b' : 'transparent',
+    color: sortKey === key ? '#f59e0b' : '#94a3b8',
+    fontSize: 11, fontWeight: 600, textTransform: 'uppercase',
+    letterSpacing: 1, whiteSpace: 'nowrap', borderBottom: '2px solid #1e293b',
+    textAlign: 'left'
   })
+
+  const Th = ({ k, label, align }) => (
+    <th style={{ ...thStyle(k), textAlign: align || 'left' }} onClick={() => handleSort(k)}>
+      {label}<SortIcon active={sortKey === k} dir={sortDir} />
+    </th>
+  )
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column', gap: 16 }}>
@@ -409,16 +412,16 @@ export default function App() {
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead style={{ background: '#0a0f1e' }}>
             <tr>
-              <th {...th('part', 'Part #')} />
-              <th {...th('description', 'Description')} />
-              <th {...th('brand', 'Brand')} />
-              <th {...th('location', 'Loc')} />
-              <th {...th('box', 'Box')} />
-              <th {...th('trailer', 'TR')} />
-              <th style={{ ...th('dey_price', 'Dey $').style, textAlign: 'right' }} onClick={() => handleSort('dey_price')}>Dey $<SortIcon active={sortKey==='dey_price'} dir={sortDir} /></th>
-              <th {...th('ebay_status', 'Status')} />
-              <th style={{ ...th('price', 'eBay $').style, textAlign: 'right' }} onClick={() => handleSort('price')}>eBay $<SortIcon active={sortKey==='price'} dir={sortDir} /></th>
-              <th {...th('date_listed', 'Listed')} />
+              <Th k="part" label="Part #" />
+              <Th k="description" label="Description" />
+              <Th k="brand" label="Brand" />
+              <Th k="location" label="Loc" />
+              <Th k="box" label="Box" />
+              <Th k="trailer" label="TR" />
+              <Th k="dey_price" label="Dey $" align="right" />
+              <Th k="ebay_status" label="Status" />
+              <Th k="price" label="eBay $" align="right" />
+              <Th k="date_listed" label="Listed" />
               <th style={{ padding: '10px 12px', color: '#475569', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, borderBottom: '2px solid #1e293b', textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
