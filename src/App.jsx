@@ -407,7 +407,7 @@ export default function App() {
       {/* Table */}
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-          <thead style={{ position: 'sticky', top: '65px', zIndex: 50, background: '#0a0f1e' }}>
+          <thead style={{ background: '#0a0f1e' }}>
             <tr>
               <th {...th('part', 'Part #')} />
               <th {...th('description', 'Description')} />
@@ -415,11 +415,11 @@ export default function App() {
               <th {...th('location', 'Loc')} />
               <th {...th('box', 'Box')} />
               <th {...th('trailer', 'TR')} />
-              <th {...th('dey_price', 'Dey $')} style={{ ...th('dey_price', 'Dey $').style, textAlign: 'right' }} />
+              <th style={{ ...th('dey_price', 'Dey $').style, textAlign: 'right' }} onClick={() => handleSort('dey_price')}>Dey $<SortIcon active={sortKey==='dey_price'} dir={sortDir} /></th>
               <th {...th('ebay_status', 'Status')} />
-              <th {...th('price', 'eBay $')} style={{ ...th('price', 'eBay $').style, textAlign: 'right' }} />
+              <th style={{ ...th('price', 'eBay $').style, textAlign: 'right' }} onClick={() => handleSort('price')}>eBay $<SortIcon active={sortKey==='price'} dir={sortDir} /></th>
               <th {...th('date_listed', 'Listed')} />
-              <th style={{ padding: '10px 12px', color: '#475569', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, borderBottom: '2px solid #1e293b' }}>Actions</th>
+              <th style={{ padding: '10px 12px', color: '#475569', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, borderBottom: '2px solid #1e293b', textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
