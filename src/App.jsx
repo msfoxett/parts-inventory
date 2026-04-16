@@ -212,18 +212,27 @@ export default function App() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  // Load all parts from Supabase
+  // Load all parts from Supabase (paginated to bypass 1000 row limit)
   const fetchParts = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('parts')
-      .select('*')
-      .order('location', { ascending: true })
-    if (error) {
-      showToast('Failed to load parts: ' + error.message, 'error')
-    } else {
-      setParts(data || [])
+    let allParts = []
+    let from = 0
+    const pageSize = 1000
+    while (true) {
+      const { data, error } = await supabase
+        .from('parts')
+        .select('*')
+        .order('location', { ascending: true })
+        .range(from, from + pageSize - 1)
+      if (error) {
+        showToast('Failed to load parts: ' + error.message, 'error')
+        break
+      }
+      allParts = [...allParts, ...(data || [])]
+      if (!data || data.length < pageSize) break
+      from += pageSize
     }
+    setParts(allParts)
     setLoading(false)
   }, [])
 
